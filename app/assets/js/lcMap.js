@@ -1,8 +1,9 @@
 var mvpMap = {
     scene: {},
     view: {},
-    goTo: {},
-    select: {}
+    // goTo: {},
+    // select: {},
+    showTrail: {}
 }
 
 
@@ -25,14 +26,15 @@ require([
         "dojo/dom-style"
     ],
     function (Map, WebScene, SceneView, ElevationLayer, BaseElevationLayer, domConstruct, dom, domClass, on, domStyle) {
-        var scene, view, layerViews, highlight;
-        var goTo, select;
+        var scene, view, layerViews, highlightedTrail;
+        var showTrail;
         initPage();
         initMap();
         mvpMap.scene = scene;
         mvpMap.view = view;
-        mvpMap.goTo = goTo;
-        mvpMap.select = select;
+        //mvpMap.goTo = goTo;
+        //mvpMap.select = select;
+        mvpMap.showTrail = showTrail;
 
         function initPage() {
             var topoBtn = document.createElement("div");
@@ -121,48 +123,35 @@ require([
 
 
             });
-            goTo = function (layer, id) {
+
+            showTrail = function (id, highlight = true, zoom = true, popup = null) {
                 var targetLayer;
                 var whereClause;
-                if (layer == "trails") {
-                    // goToLayers.push(layerViews["Life Changer Trails"]);
-                    targetLayer = layerViews["Mamoni Valley Trails"];
-                    whereClause = "Name LIKE '%" + id + "%'";
-                }
+
+                targetLayer = layerViews["Mamoni Valley Trails"];
+                whereClause = "Name LIKE '%" + id + "%'";
 
                 targetLayer.queryFeatures({
                     where: whereClause,
                     returnGeometry: true
                 }).then(function (results) {
-                    view.goTo(results.features, {
-                        speedFactor: 0.5
-                    });
-                })
-
-            }
-            select = function (layer, id, goTo = true) {
-                var targetLayer;
-                var whereClause;
-                if (layer == "trails") {
-                    // goToLayers.push(layerViews["Life Changer Trails"]);
-                    targetLayer = layerViews["Mamoni Valley Trails"];
-                    whereClause = "Name LIKE '%" + id + "%'";
-                }
-                targetLayer.queryFeatures({
-                    where: whereClause,
-                    returnGeometry: true
-                }).then(function (results) {
-                    if (highlight) {
-                        highlight.remove();
+                    if (highlightedTrail) {
+                        highlightedTrail.remove();
                     }
-                    highlight = targetLayer.highlight(results.features);
-                    if (goTo = true) {
+                    if (highlight == true) {
+                        highlightedTrail = targetLayer.highlight(results.features);
+                    }
+
+                    if (zoom == true) {
                         view.goTo({
                             target: results.features,
                             tilt: 65
                         }, {
                             speedFactor: 0.5
                         });
+                    }
+                    if (popup) {
+                        //todo
                     }
                 })
 
