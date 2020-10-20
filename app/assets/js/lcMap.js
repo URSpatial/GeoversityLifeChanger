@@ -3,7 +3,9 @@ var mvpMap = {
     view: {},
     // goTo: {},
     // select: {},
-    showTrail: {}
+    showTrail: null,
+    showFacility: null
+
 }
 
 
@@ -26,8 +28,8 @@ require([
         "dojo/dom-style"
     ],
     function (Map, WebScene, SceneView, ElevationLayer, BaseElevationLayer, domConstruct, dom, domClass, on, domStyle) {
-        var scene, view, layerViews, highlightedTrail;
-        var showTrail;
+        var scene, view, layerViews, highlightedTrail, highlightedFacility;
+        var showTrail, showFacility;
         initPage();
         initMap();
         mvpMap.scene = scene;
@@ -35,6 +37,7 @@ require([
         //mvpMap.goTo = goTo;
         //mvpMap.select = select;
         mvpMap.showTrail = showTrail;
+        mvpMap.showFacility = showFacility;
 
         function initPage() {
             var topoBtn = document.createElement("div");
@@ -129,8 +132,8 @@ require([
                 var whereClause;
 
                 targetLayer = layerViews["Mamoni Valley Trails"];
-                whereClause = "Name LIKE '%" + id + "%'";
-
+                whereClause = "Name = '" + id + "'";
+                whereClause = "TrailID = '" + id + "'";
                 targetLayer.queryFeatures({
                     where: whereClause,
                     returnGeometry: true
@@ -138,20 +141,58 @@ require([
                     if (highlightedTrail) {
                         highlightedTrail.remove();
                     }
-                    if (highlight == true) {
-                        highlightedTrail = targetLayer.highlight(results.features);
-                    }
+                    if (results.features.length > 0) {
+                        if (highlight == true) {
+                            highlightedTrail = targetLayer.highlight(results.features);
+                        }
 
-                    if (zoom == true) {
-                        view.goTo({
-                            target: results.features,
-                            tilt: 65
-                        }, {
-                            speedFactor: 0.5
-                        });
+                        if (zoom == true) {
+                            view.goTo({
+                                //target: results.features,
+                                tilt: 65,
+                                target: results.features[0].geometry.extent.expand(1.07)
+                            }, {
+                                speedFactor: 0.5
+                            });
+                        }
+                        if (popup) {
+                            //todo
+                        }
                     }
-                    if (popup) {
-                        //todo
+                })
+
+            }
+            showFacility = function (id, highlight = true, zoom = true, popup = null) {
+                var targetLayer;
+                var whereClause;
+
+                targetLayer = layerViews["Life Changer Lodging Facilities"];
+                whereClause = "Name = '" + id + "'";
+                whereClause = "FacilityID = '" + id + "'";
+                targetLayer.queryFeatures({
+                    where: whereClause,
+                    returnGeometry: true
+                }).then(function (results) {
+                    if (highlightedFacility) {
+                        highlightedFacility.remove();
+                    }
+                    if (results.features.length > 0) {
+                        if (highlight == true) {
+                            highlightedFacility = targetLayer.highlight(results.features);
+                        }
+
+                        if (zoom == true) {
+                            view.goTo({
+                                target: results.features,
+                                tilt: 65,
+                                zoom: 17
+                            }, {
+                                speedFactor: 0.5
+                            });
+                        }
+                        if (popup) {
+                            //todo
+                        }
                     }
                 })
 
@@ -186,6 +227,7 @@ require([
         function getLayer(title) {
             for (let i = 0; i < scene.allLayers.items.length; i++) {
                 if (scene.allLayers.items[i].title.toLowerCase() == title.toLowerCase()) {
+                    scene.allLayers.items[i].outFields = "*";
                     return scene.allLayers.items[i]
                 }
             }
