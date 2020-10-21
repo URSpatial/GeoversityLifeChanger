@@ -1,19 +1,36 @@
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Geoversity Lifechanger Map Sample</title>
-  
-  
+
+
   <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
   <link rel="stylesheet" href="assets/css/lcMap.css">
+  <link rel="stylesheet" href="assets/css/app.css">
   <script src="https://js.arcgis.com/4.17/"></script>
   <script src="assets/js/lcMap.js"></script>
-  <script>  
-   
+  <script>
+
   </script>
 </head>
+
 <body>
+  <div id="linkList">
+    <div><b>Trails</b></div>
+    <div onclick="mvpMap.showTrail('LaBonita')" style="cursor: pointer">La Bonita Falls</div>
+    <div
+      onclick="mvpMap.showTrail('LaBonita',true,true,{title:'La Bonita Ridge',content:'Some content as html.<br><b>See I can put html in here!</b><img width=\'100%\' src=\'https://earthtrain.org/en/assets/imgs/gallerias/00_mvp-tour/normal/2%20view%20south%20of%20centro%20mamoni.jpg\'>'})"
+      style="cursor: pointer">La Bonita Falls (with popup sample)</div>
+    <div onclick="mvpMap.showTrail('ZahinaRidge')" style="cursor: pointer">La Zahina Ridge</div>
+    <div onclick="mvpMap.showTrail('ElValle')" style="cursor: pointer">El Valle</div>
+    <div><b>Lodging</b></div>
+    <div onclick="mvpMap.showFacility('Centro')" style="cursor: pointer">Centro</div>
+    <div onclick="mvpMap.showFacility('Quebrada')" style="cursor: pointer">Casa Quebrada</div>
+
+  </div>
   <div id="mapView"></div>
 </body>
+
 </html>
