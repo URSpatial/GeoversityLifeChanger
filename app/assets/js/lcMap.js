@@ -3,15 +3,15 @@ var mvpMap = {
     scene: {},
     view: {},
     showTrail: null,
-    showFacility: null
+    showFacility: null,
+    coreLayerNames: {
+        lcTrails: "Life Changer Trails",
+        lcLodging: "Life Changer Lodging Facilities",
+        allTrails: "Mamoni Valley Trails",
+        terrain: "Mamoni Terrain"
+    }
+}
 
-}
-var coreLayerNames = {
-    lcTrails: "Life Changer Trails",
-    lcLodging: "Life Changer Lodging Facilities",
-    allTrails: "Mamoni Valley Trails",
-    terrain: "Mamoni Terrain"
-}
 require([
         "esri/Map",
         "esri/WebScene",
@@ -39,12 +39,12 @@ require([
             topoBtn.id = "baseTopo";
             topoBtn.className = "basemapButton"
             topoBtn.innerHTML = "Topographic";
-            document.getElementById(mapView.sceneDiv).appendChild(topoBtn);
+            document.getElementById(mvpMap.sceneDiv).appendChild(topoBtn);
             var imgBtn = document.createElement("div");
             imgBtn.id = "baseImagery";
             imgBtn.className = "basemapButton"
             imgBtn.innerHTML = "Imagery";
-            document.getElementById(mapView.sceneDiv).appendChild(imgBtn);
+            document.getElementById(mvpMap.sceneDiv).appendChild(imgBtn);
 
         }
 
@@ -60,7 +60,7 @@ require([
                 }
             });
             view = new SceneView({
-                container: mapView.sceneDiv,
+                container: mvpMap.sceneDiv,
                 map: scene,
                 camera: {
                     heading: 2.157,
@@ -99,9 +99,9 @@ require([
                 });
             });
             scene.when(function () {
-                var coreLayerProps = Object.keys(coreLayerNames);
+                var coreLayerProps = Object.keys(mvpMap.coreLayerNames);
                 for (i = 0; i < coreLayerProps.length; i++) {
-                    var lyrName = coreLayerNames[coreLayerProps[i]];
+                    var lyrName = mvpMap.coreLayerNames[coreLayerProps[i]];
                     var lyr = getLayer(lyrName);
                     view.whenLayerView(lyr).then(function (layerView) {
                         layerViews[layerView.layer.title] = layerView;
