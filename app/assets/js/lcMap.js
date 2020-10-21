@@ -27,7 +27,7 @@ require([
         "dojo/on",
         "dojo/dom-style"
     ],
-    function (Map, WebScene, SceneView, ElevationLayer, BaseElevationLayer, domConstruct, dom, domClass, on, domStyle) {
+    function(Map, WebScene, SceneView, ElevationLayer, BaseElevationLayer, domConstruct, dom, domClass, on, domStyle) {
         var scene, view, layerViews, highlightedTrail, highlightedFacility;
         var showTrail, showFacility;
         initPage();
@@ -92,31 +92,31 @@ require([
                 }
             });
 
-            view.when(function () {
+            view.when(function() {
                 setBasemap("topo");
                 var baseTopo = dom.byId("baseTopo");
                 var baseImagery = dom.byId("baseImagery");
-                on(baseTopo, "click", function (evt) {
+                on(baseTopo, "click", function(evt) {
                     setBasemap("topo");
 
                 });
-                on(baseImagery, "click", function (evt) {
+                on(baseImagery, "click", function(evt) {
                     setBasemap("imagery");
 
                 });
 
-                view.on("layerview-create", function (event) {
+                view.on("layerview-create", function(event) {
                     //layerViews[event.layer.id] = event.layerView;
                 });
             });
-            scene.when(function () {
+            scene.when(function() {
 
 
                 var coreLayerProps = Object.keys(coreLayerNames);
                 for (i = 0; i < coreLayerProps.length; i++) {
                     var lyrName = coreLayerNames[coreLayerProps[i]];
                     var lyr = getLayer(lyrName);
-                    view.whenLayerView(lyr).then(function (layerView) {
+                    view.whenLayerView(lyr).then(function(layerView) {
                         layerViews[layerView.layer.title] = layerView;
                     })
 
@@ -127,7 +127,7 @@ require([
 
             });
 
-            showTrail = function (id, highlight = true, zoom = true, popup = null) {
+            showTrail = function(id, highlight = true, zoom = true, popup = null) {
                 var targetLayer;
                 var whereClause;
 
@@ -137,7 +137,7 @@ require([
                 targetLayer.queryFeatures({
                     where: whereClause,
                     returnGeometry: true
-                }).then(function (results) {
+                }).then(function(results) {
                     if (highlightedTrail) {
                         highlightedTrail.remove();
                     }
@@ -156,13 +156,20 @@ require([
                             });
                         }
                         if (popup) {
-                            //todo
+                            var trailGeom = results.features[0].geometry;
+                            view.popup.open({
+
+                                title: popup.title,
+                                location: trailGeom.getPoint(0, Math.round(trailGeom.paths[0].length / 2)),
+                                content: popup.content
+                            });
+
                         }
                     }
                 })
 
             }
-            showFacility = function (id, highlight = true, zoom = true, popup = null) {
+            showFacility = function(id, highlight = true, zoom = true, popup = null) {
                 var targetLayer;
                 var whereClause;
 
@@ -172,7 +179,7 @@ require([
                 targetLayer.queryFeatures({
                     where: whereClause,
                     returnGeometry: true
-                }).then(function (results) {
+                }).then(function(results) {
                     if (highlightedFacility) {
                         highlightedFacility.remove();
                     }
@@ -191,7 +198,12 @@ require([
                             });
                         }
                         if (popup) {
-                            //todo
+                            view.popup.open({
+
+                                title: popup.title,
+                                location: results.features[0].geometry,
+                                content: popup.content
+                            });
                         }
                     }
                 })
