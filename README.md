@@ -1,4 +1,5 @@
 # Geoversity LifeChanger Maps
+[See the sample map page here](https://urspatial.redlands.edu/apps/panama/lifechangermap/lcmap.html)
 ## Adding a map to a page
 Add references to the Esri jsapi and the lifechanger (lc) links (along with your own)
 ```
