@@ -33,6 +33,29 @@ showFacility(id,highlight,zoom,popup)
 Sample
 ```
 mvpMap.showTrail('LaBonita'); //highlights and zooms with no popup
-mvpMap.showTrail('LaZahina',true,true,{title:'La Zahina Ridge',content:'Some content for this trail'}); //highlights and zooms with a simple popup
-mvpMap.showTrail('LaZahina',true,true,{title:'La Zahina Ridge',content:'Some content as html.<br><b>See I can put html in here!</b><img width=\'100%\' src=\'https://earthtrain.org/en/assets/imgs/gallerias/00_mvp-tour/normal/2%20view%20south%20of%20centro%20mamoni.jpg\'>'}); //highlights and zooms with an html-formatted popup
-```
+mvpMap.showTrail('ZahinaRidge',true,true,{title:'La Zahina Ridge',content:'Some content for this trail'}); //highlights and zooms with a simple popup
+mvpMap.showTrail('ZahinaFalls',true,true,{title:'La Zahina Waterfall',content:'Some content as html.<br><b>See I can put html in here!</b><img width=\'100%\' src=\'https://earthtrain.org/en/assets/imgs/gallerias/00_mvp-tour/normal/2%20view%20south%20of%20centro%20mamoni.jpg\'>'}); //highlights and zooms with an html-formatted popup
+```  
+### ID's
+We don't currently have an agreed-upon ID system for trails and facilities so I created a few below. The only convention I'm using is to keep them short, readable, and using Camel Case when necessary.  
+**Trails**
+| ID | Name |
+| --- | --- |
+| ElValle | El Valle |
+| LaBonita | La Bonita Falls Loop |
+| SendroArena | Sendro Arena |
+| Continental | Mirador-Continental Divide |
+| ZahinaRidge | La Zahina Ridge |
+| ZahinaAlternate | La Zahina Ridge Alterate |
+| Candagi | Cangadi River |
+| ZahinaFalls | La Zahina Waterfall |
+| Tower | Tower Trail (Gabriel's Ridge) |
+| Salazar | Salazar Ridge |
+
+**Facilities**
+| ID | Name |
+| --- | --- |
+| Centro | Centro Mamoní |
+| Quebrada | Casa Quebrada |
+
+
